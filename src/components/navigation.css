@@ -1,0 +1,10 @@
+h3 {
+  padding: 0.5rem;
+}
+.navigation-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  /* top: -90px; */
+}
