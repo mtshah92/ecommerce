@@ -3,6 +3,7 @@ import "./App.css";
 import Mockman from "mockman-js";
 import { Home } from "./pages/Home";
 import { NavBar } from "./components/navigation";
+import { ProductList } from "./pages/productListing";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/mockman" element={<Mockman />} />
+        <Route path="/products" element={<ProductList />} />
       </Routes>
     </div>
   );
