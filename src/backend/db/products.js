@@ -8,8 +8,9 @@ import { v4 as uuid } from "uuid";
 export const products = [
   {
     _id: uuid(),
-    title: "You Can WIN",
+    title: "You Can Win",
     author: "Shiv Khera",
+    url: "https://d2i0w0hu6hvxgc.cloudfront.net/B00HQE51N4/9381233f/cover.jpeg",
     price: "5000",
     categoryName: "non-fiction",
   },
@@ -26,5 +27,6 @@ export const products = [
     author: "Shiv Khera",
     price: "1000",
     categoryName: "fiction",
+    url: "https://m.media-amazon.com/images/I/411OtAf040L._SY264_BO1,204,203,200_QL40_FMwebp_.jpg",
   },
 ];

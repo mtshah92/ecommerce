@@ -1,0 +1,13 @@
+.product-card {
+  border: 1px solid black;
+  display: inline-block;
+  margin: 0.5rem;
+}
+
+.add-button {
+  margin-right: 0.5rem;
+}
+
+.wishList-button {
+  margin-left: 0.5rem;
+}

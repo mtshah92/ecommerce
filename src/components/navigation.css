@@ -1,10 +1,35 @@
-h3 {
-  padding: 0.5rem;
-}
 .navigation-bar {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  border: 1px solid whitesmoke;
+  width: 100%;
+  box-shadow: 5px 5px 5px grey;
+  min-height: 8vh;
+}
+
+.home {
+  justify-content: start;
+  margin-left: 0.5rem;
+}
+
+.search-bar {
+  width: 30%;
   justify-content: center;
-  position: relative;
-  /* top: -90px; */
+  margin-left: 30px;
+}
+
+.nav-links {
+  justify-content: end;
+}
+
+.profile-navbar {
+  padding: 0.75rem;
+}
+.cart-navbar {
+  padding: 1rem;
+}
+
+.wishList-navbar {
+  padding: 0.75rem;
 }

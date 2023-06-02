@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 
 export const ProductContext = createContext();
 
@@ -15,6 +15,7 @@ export const ProductProvider = ({ children }) => {
   };
 
   useEffect(() => fetchProducts(), []);
+
   return (
     <ProductContext.Provider value={{ products }}>
       {" "}
