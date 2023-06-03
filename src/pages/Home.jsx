@@ -6,7 +6,6 @@ export const Home = () => {
 
   return (
     <div>
-      <h2>Home</h2>
       {categories.map((item) => (
         <div>
           <li>
