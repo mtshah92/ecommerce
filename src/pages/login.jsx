@@ -17,14 +17,14 @@ export const Login = () => {
       <input
         type="text"
         id="email"
-        placeholder="adarshbalika@gmail.com"
+        placeholder="test@gmail.com"
         onChange={(e) => setEmail(e.target.value)}
       />
       <label for="password">Password</label>
       <input
         type="password"
         id="password"
-        placeholder="adarshbalika"
+        placeholder="test"
         onChange={(e) => setPassword(e.target.value)}
       />
       <button
