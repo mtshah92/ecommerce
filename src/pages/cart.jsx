@@ -3,25 +3,37 @@ import { CartContext } from "../context/cartContext";
 import { WishListContext } from "../context/wishListContext";
 
 export const Cart = () => {
-  const { cartState, dispatch } = useContext(CartContext);
+  const { cartdetails, dispatch, removeFromCart, increaseAndDecreaseQty } =
+    useContext(CartContext);
   const { wishListdispatch } = useContext(WishListContext);
   return (
     <div>
       <h2>Cart</h2>
-      {cartState.map((item) => {
-        const { _id, title, price, categoryName, author, url, quantity } = item;
+      {cartdetails.cart?.map((item) => {
+        const { _id, title, price, categoryName, author, url, qty, id } = item;
         return (
           <div key={_id}>
             <h2>{title}</h2>
             <p>Author:{author}</p>
             <p>Category:{categoryName}</p>
-            <p>Quantity:{quantity}</p>
-            <button onClick={() => dispatch({ id: _id, type: "increase" })}>
+            <p>Quantity:{qty}</p>
+            <button
+              onClick={
+                () => increaseAndDecreaseQty(_id, "increase")
+                // dispatch({ id: _id, type: "increase" })
+              }
+            >
               +
             </button>
             <button
-              onClick={() =>
-                dispatch({ id: _id, type: "decrease", value: item })
+              onClick={
+                () => {
+                  increaseAndDecreaseQty(_id, "decrease");
+                  if (qty === 1) {
+                    removeFromCart(_id);
+                  }
+                }
+                // dispatch({ id: _id, type: "decrease", value: item })
               }
             >
               -
@@ -29,14 +41,17 @@ export const Cart = () => {
             <button onClick={() => wishListdispatch({ id: _id, value: item })}>
               Add to WishList
             </button>
+            <button onClick={() => removeFromCart(_id)}>
+              Remove from Cart
+            </button>
           </div>
         );
       })}
       <div className="price-card">
         <p>
           <b>Price:</b>{" "}
-          {cartState.reduce(
-            (acc, curr) => Number(curr.price) * curr.quantity + acc,
+          {cartdetails.cart?.reduce(
+            (acc, curr) => Number(curr.price) * Number(curr.qty) + acc,
             0
           )}
         </p>

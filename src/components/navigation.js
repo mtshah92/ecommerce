@@ -7,8 +7,8 @@ import { CartContext } from "../context/cartContext";
 import { ProductContext } from "../context/productContext";
 
 export const NavBar = () => {
-  const { cartState } = useContext(CartContext);
-  const { wishListState } = useContext(WishListContext);
+  // const { cartState } = useContext(CartContext);
+  // const { wishListState } = useContext(WishListContext);
   const { setSearch } = useContext(ProductContext);
   return (
     <div className="navigation-bar">
@@ -25,10 +25,12 @@ export const NavBar = () => {
           Products
         </NavLink>
         <NavLink to="/wishList" className="wishList-navbar">
-          WishList({wishListState.length})
+          WishList
+          {/* ({wishListState.length}) */}
         </NavLink>
         <NavLink to="/cart" className="cart-navbar">
-          Cart({cartState.length})
+          Cart
+          {/* ({cartState.length}) */}
         </NavLink>
         <NavLink to="/profile" className="profile-navbar">
           Profile{" "}

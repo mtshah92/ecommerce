@@ -4,15 +4,21 @@ import { ProductContext } from "../context/productContext";
 import { CartContext } from "../context/cartContext";
 import { WishListContext } from "../context/wishListContext";
 import "./productListing.css";
+import { NavLink, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 export const ProductList = () => {
-  const { data, sortHandler, checkboxHandler } = useContext(ProductContext);
-  const { dispatch } = useContext(CartContext);
+  const { data, sortHandler, checkboxHandler, wishListHandler } =
+    useContext(ProductContext);
+  const { getcart, updateCart, cartdetails } = useContext(CartContext);
   const { wishListdispatch } = useContext(WishListContext);
+  const { userlogin } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [cartButton, setCartButton] = useState(false);
 
   const info = data();
   // console.log(info);
-
+  const token = localStorage.getItem("token");
   return (
     <div className="productListing">
       <div className="filter">
@@ -109,7 +115,17 @@ export const ProductList = () => {
       </div>
       <div className="products">
         {info.map((item) => {
-          const { _id, title, author, price, categoryName, rating, url } = item;
+          const {
+            _id,
+            title,
+            author,
+            price,
+            categoryName,
+            rating,
+            url,
+            cart,
+            wishList,
+          } = item;
           return (
             <div key={_id} className="product-card">
               <img src={url} width="150px" height="200px" alt={title} />
@@ -120,19 +136,43 @@ export const ProductList = () => {
               <p>₹{price}</p>
 
               <div className="buttons">
+                {cartdetails.cart?.find((value) => value._id === _id) ? (
+                  token === "false" ? (
+                    <button onClick={() => navigate("/login")}>
+                      Add to Cart
+                    </button>
+                  ) : (
+                    <NavLink to="/cart">Go to Cart</NavLink>
+                  )
+                ) : (
+                  <button
+                    onClick={() => {
+                      if (userlogin) {
+                        updateCart(item);
+                        getcart();
+                      } else {
+                        navigate("/login");
+                      }
+                    }}
+                    className="add-button"
+                    disabled={cartButton}
+                  >
+                    Add to Cart
+                  </button>
+                )}
+
                 <button
                   onClick={() => {
-                    dispatch({ id: _id, value: item });
+                    wishListdispatch({ id: _id, value: item });
+                    wishListHandler(item);
                   }}
-                  className="add-button"
-                >
-                  Add to Cart
-                </button>
-                <button
-                  onClick={() => wishListdispatch({ id: _id, value: item })}
                   className="wishList-button"
                 >
-                  Add to WishList
+                  {wishList ? (
+                    <NavLink to="/wishList">Added to WishList</NavLink>
+                  ) : (
+                    "Add to WishList"
+                  )}
                 </button>
               </div>
             </div>
