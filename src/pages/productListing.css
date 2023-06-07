@@ -45,3 +45,13 @@
 .wishList-button {
   margin-left: 0.5rem;
 }
+
+datalist {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+input[type="range"] {
+  width: 200px;
+  margin: 0;
+}

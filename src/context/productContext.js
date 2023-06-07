@@ -8,6 +8,7 @@ export const ProductProvider = ({ children }) => {
   const [search, setSearch] = useState();
   const [cart, setCart] = useState([]);
   const [wishList, setWishList] = useState([]);
+  const [value, setValue] = useState();
 
   const fetchProducts = async () => {
     try {
@@ -59,6 +60,11 @@ export const ProductProvider = ({ children }) => {
   console.log(cart);
   const data = () => {
     let product = [...productState];
+    console.log(value);
+
+    if (value) {
+      product = product.filter((item) => Number(item.price) <= value);
+    }
     if (search) {
       product = product.filter((item) => item.title.includes(search));
     }
@@ -118,6 +124,7 @@ export const ProductProvider = ({ children }) => {
         setSearch,
         cartHandler,
         wishListHandler,
+        setValue,
       }}
     >
       {" "}

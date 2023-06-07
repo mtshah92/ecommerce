@@ -8,14 +8,12 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 export const ProductList = () => {
-  const { data, sortHandler, checkboxHandler, wishListHandler } =
+  const { data, sortHandler, checkboxHandler, setValue } =
     useContext(ProductContext);
   const { getcart, updateCart, cartdetails } = useContext(CartContext);
-  const { wishListdispatch, updateWishlist, wishlistdata } =
-    useContext(WishListContext);
+  const { updateWishlist, wishlistdata } = useContext(WishListContext);
   const { userlogin } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [cartButton, setCartButton] = useState(false);
 
   const info = data();
   // console.log(info);
@@ -27,7 +25,7 @@ export const ProductList = () => {
           <h3 className="filterTitle">Filter</h3>
           <button className="clearFilter">Clear All</button>
         </div>
-        <div className="priceSort">
+        {/* <div className="priceSort">
           <h3 className="priceName">Sort By Price</h3>
           <div className="priceSortLowToHigh">
             <input
@@ -49,6 +47,23 @@ export const ProductList = () => {
             />
             <label for="highToLow">Price: High To Low</label>
           </div>
+        </div> */}
+
+        <div>
+          <input
+            type="range"
+            min="100"
+            max="1000"
+            step="100"
+            onChange={(e) => setValue(e.target.value)}
+            list="markers"
+            defaultValue={"500"}
+          />
+          <datalist id="markers">
+            <option value="100" label="<100"></option>
+            <option value="500" label="<500"></option>
+            <option value="1000" label="<1000"></option>
+          </datalist>
         </div>
         <div className="checkbox">
           <h3>Categories</h3>
@@ -156,7 +171,6 @@ export const ProductList = () => {
                       }
                     }}
                     className="add-button"
-                    // disabled={cartButton}
                   >
                     Add to Cart
                   </button>
