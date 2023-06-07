@@ -125,6 +125,7 @@ export const ProductProvider = ({ children }) => {
         cartHandler,
         wishListHandler,
         setValue,
+        value,
       }}
     >
       {" "}

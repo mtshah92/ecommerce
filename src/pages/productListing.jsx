@@ -8,7 +8,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 export const ProductList = () => {
-  const { data, sortHandler, checkboxHandler, setValue } =
+  const { data, sortHandler, checkboxHandler, setValue, value } =
     useContext(ProductContext);
   const { getcart, updateCart, cartdetails } = useContext(CartContext);
   const { updateWishlist, wishlistdata } = useContext(WishListContext);
@@ -59,11 +59,13 @@ export const ProductList = () => {
             list="markers"
             defaultValue={"500"}
           />
+
           <datalist id="markers">
-            <option value="100" label="<100"></option>
-            <option value="500" label="<500"></option>
-            <option value="1000" label="<1000"></option>
+            <option value="100" label="100"></option>
+            <option value="500" label="500"></option>
+            <option value="1000" label="1000"></option>
           </datalist>
+          <p>Price Selected: {`<=${value}`}</p>
         </div>
         <div className="checkbox">
           <h3>Categories</h3>
