@@ -7,8 +7,8 @@ export const RequireAuth = ({ children }) => {
   const location = useLocation();
   const login = localStorage.getItem("token");
   console.log(login);
-
-  return login !== "false" ? (
+  // login !== "false"
+  return userlogin ? (
     children
   ) : (
     <Navigate to="/login" state={{ from: location }} />

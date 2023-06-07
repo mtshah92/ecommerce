@@ -20,7 +20,7 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // add cart
+  // add to cart
   const updateCart = async (data) => {
     const product = { product: data };
     console.log(product);
@@ -39,6 +39,7 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+  // increase or decrease cart quantity
   const increaseAndDecreaseQty = async (id, type) => {
     const updateaction = {
       action: { type: type === "increase" ? "increment" : "decrement" },
@@ -51,13 +52,14 @@ export const CartProvider = ({ children }) => {
         },
         body: JSON.stringify(updateaction),
       });
-      // console.log(await response.json());
+
       dispatch({ type: "update", updatedCart: await response.json() });
     } catch (e) {
       console.log(e);
     }
   };
 
+  // remove from cart
   const removeFromCart = async (data) => {
     const id = data;
 
@@ -69,12 +71,12 @@ export const CartProvider = ({ children }) => {
         },
       });
       dispatch({ type: "delete", data: await response.json() });
-      // console.log(await response.json());
     } catch (e) {
       console.error(e);
     }
   };
 
+  // method if api is not given and simple on click of button we neet to get and manage data
   // const handleCart = (state, action) => {
   //   //   if (action.type === "increase") {
   //   //     return state.map((item) => {

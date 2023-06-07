@@ -1,11 +1,12 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CartContext } from "../context/cartContext";
 import { WishListContext } from "../context/wishListContext";
 
 export const Cart = () => {
   const { cartdetails, dispatch, removeFromCart, increaseAndDecreaseQty } =
     useContext(CartContext);
-  const { wishListdispatch } = useContext(WishListContext);
+  const { updateWishlist, wishlistdata } = useContext(WishListContext);
+
   return (
     <div>
       <h2>Cart</h2>
@@ -17,28 +18,29 @@ export const Cart = () => {
             <p>Author:{author}</p>
             <p>Category:{categoryName}</p>
             <p>Quantity:{qty}</p>
-            <button
-              onClick={
-                () => increaseAndDecreaseQty(_id, "increase")
-                // dispatch({ id: _id, type: "increase" })
-              }
-            >
+            <button onClick={() => increaseAndDecreaseQty(_id, "increase")}>
               +
             </button>
             <button
-              onClick={
-                () => {
-                  increaseAndDecreaseQty(_id, "decrease");
-                  if (qty === 1) {
-                    removeFromCart(_id);
-                  }
+              onClick={() => {
+                increaseAndDecreaseQty(_id, "decrease");
+                if (qty === 1) {
+                  removeFromCart(_id);
                 }
-                // dispatch({ id: _id, type: "decrease", value: item })
-              }
+              }}
             >
               -
             </button>
-            <button onClick={() => wishListdispatch({ id: _id, value: item })}>
+            <button
+              onClick={() => {
+                if (
+                  wishlistdata?.wishlist?.find((value) => value._id === _id)
+                ) {
+                } else {
+                  updateWishlist(item);
+                }
+              }}
+            >
               Add to WishList
             </button>
             <button onClick={() => removeFromCart(_id)}>

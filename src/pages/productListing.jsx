@@ -11,7 +11,8 @@ export const ProductList = () => {
   const { data, sortHandler, checkboxHandler, wishListHandler } =
     useContext(ProductContext);
   const { getcart, updateCart, cartdetails } = useContext(CartContext);
-  const { wishListdispatch } = useContext(WishListContext);
+  const { wishListdispatch, updateWishlist, wishlistdata } =
+    useContext(WishListContext);
   const { userlogin } = useContext(AuthContext);
   const navigate = useNavigate();
   const [cartButton, setCartButton] = useState(false);
@@ -155,25 +156,34 @@ export const ProductList = () => {
                       }
                     }}
                     className="add-button"
-                    disabled={cartButton}
+                    // disabled={cartButton}
                   >
                     Add to Cart
                   </button>
                 )}
 
-                <button
-                  onClick={() => {
-                    wishListdispatch({ id: _id, value: item });
-                    wishListHandler(item);
-                  }}
-                  className="wishList-button"
-                >
-                  {wishList ? (
-                    <NavLink to="/wishList">Added to WishList</NavLink>
+                {wishlistdata?.wishlist?.find((value) => value._id === _id) ? (
+                  token === "false" ? (
+                    <button onClick={() => navigate("/login")}>
+                      Add to WishList
+                    </button>
                   ) : (
-                    "Add to WishList"
-                  )}
-                </button>
+                    <NavLink to="/wishList">Go to WishList</NavLink>
+                  )
+                ) : (
+                  <button
+                    onClick={() => {
+                      if (userlogin) {
+                        updateWishlist(item);
+                      } else {
+                        navigate("/login");
+                      }
+                    }}
+                    className="wishlist-button"
+                  >
+                    Add to WishList
+                  </button>
+                )}
               </div>
             </div>
           );
