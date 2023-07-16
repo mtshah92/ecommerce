@@ -1,11 +1,11 @@
 import { useContext, useState } from "react";
 
-import { ProductContext } from "../context/productContext";
-import { CartContext } from "../context/cartContext";
-import { WishListContext } from "../context/wishListContext";
+import { ProductContext } from "../../context/productContext";
+import { CartContext } from "../../context/cartContext";
+import { WishListContext } from "../../context/wishListContext";
 import "./productListing.css";
 import { NavLink, useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 
 export const ProductList = () => {
   const { data, sortHandler, checkboxHandler, setValue, value } =

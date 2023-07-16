@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
-import { WishListContext } from "../context/wishListContext";
-import { CartContext } from "../context/cartContext";
+import { WishListContext } from "../../context/wishListContext";
+import { CartContext } from "../../context/cartContext";
 import { NavLink } from "react-router-dom";
 
 export const WishList = () => {

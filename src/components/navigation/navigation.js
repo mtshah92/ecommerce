@@ -2,9 +2,10 @@ import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 
 import "./navigation.css";
-import { WishListContext } from "../context/wishListContext";
-import { CartContext } from "../context/cartContext";
-import { ProductContext } from "../context/productContext";
+import { WishListContext } from "../../context/wishListContext";
+import { CartContext } from "../../context/cartContext";
+import { ProductContext } from "../../context/productContext";
+// import { ProductContext } from "../../context/productContext";
 
 export const NavBar = () => {
   // const { cartState } = useContext(CartContext);

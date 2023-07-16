@@ -1,15 +1,15 @@
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Mockman from "mockman-js";
-import { Home } from "./pages/Home";
-import { NavBar } from "./components/navigation";
-import { ProductList } from "./pages/productListing";
-import { WishList } from "./pages/wishList";
-import { Cart } from "./pages/cart";
-import { Login } from "./pages/login";
-import { Profile } from "./pages/profile";
-import { RequireAuth } from "./components/RequireAuth";
-import { SignUp } from "./pages/signup";
+import { Home } from "./pages/home/Home";
+import { ProductList } from "./pages/productListing/productListing";
+import { WishList } from "./pages/wishList/wishList";
+import { Cart } from "./pages/cart/cart";
+import { Login } from "./pages/login/login";
+import { Profile } from "./pages/profile/profile";
+import { RequireAuth } from "./components/auth/RequireAuth";
+import { SignUp } from "./pages/signup/signup";
+import { NavBar } from "./components/navigation/navigation";
 
 function App() {
   return (
