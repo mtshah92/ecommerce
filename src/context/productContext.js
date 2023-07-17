@@ -37,7 +37,7 @@ export const ProductProvider = ({ children }) => {
   };
 
   const [productState, productdispatch] = useReducer(filterHandle, []);
-  console.log(productState);
+
   useEffect(() => fetchProducts(), []);
 
   const sortHandler = (e) => {

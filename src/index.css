@@ -11,6 +11,7 @@ body {
 *:after {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",

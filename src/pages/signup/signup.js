@@ -1,76 +1,113 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { NavBar } from "../../components/navigation/navigation";
+import "./signup.css";
+import { NavLink } from "react-router-dom";
 
 export const SignUp = () => {
-  const {
-    setEmail,
-    setPassword,
-    setConfirmPassword,
-    setFirstName,
-    setLastName,
-    // signUpHandler,
-    signup,
-  } = useContext(AuthContext);
+  const { signupHandler, signup } = useContext(AuthContext);
+
+  const [userData, setUserData] = useState({
+    email: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+  });
   return (
     <div>
-      <div>
-        <label for="email">
-          Email:{" "}
-          <input
-            type="email"
-            id="email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </label>
+      <NavBar />
+      <div className="signup-page">
+        <div className="signup-card">
+          <h2>Signup</h2>
+          <div>
+            <label for="email">
+              Email{" "}
+              <div className="signup-email">
+                <input
+                  type="email"
+                  id="email"
+                  placeholder="Enter Email"
+                  onChange={(e) => {
+                    setUserData({ ...userData, email: e.target.value });
+                  }}
+                />
+              </div>
+            </label>
+          </div>
+          <div>
+            <label for="firstName">
+              First Name{" "}
+              <div className="signup-firstName">
+                <input
+                  type="text"
+                  id="firstName"
+                  placeholder="First Name"
+                  onChange={(e) => {
+                    setUserData({ ...userData, firstName: e.target.value });
+                  }}
+                />
+              </div>
+            </label>
+          </div>
+          <div>
+            <label for="lastName">
+              Last Name{" "}
+              <div className="signup-lastName">
+                <input
+                  type="text"
+                  id="lastName"
+                  placeholder="Last Name"
+                  onChange={(e) => {
+                    setUserData({ ...userData, lastName: e.target.value });
+                  }}
+                />
+              </div>
+            </label>
+          </div>
+          <div>
+            <label for="password">
+              Password{" "}
+              <div className="signup-password">
+                <input
+                  type="password"
+                  placeholder="Password"
+                  id="password"
+                  onChange={(e) => {
+                    setUserData({ ...userData, password: e.target.value });
+                  }}
+                />
+              </div>
+            </label>
+          </div>
+          <div>
+            <label for="confirmPassword">
+              Confirm Password{" "}
+              <div className="signup-confirmPassword">
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  placeholder="Confirm Password"
+                  // onClick={(e) => setConfirmPassword(e.target.value)}
+                />
+              </div>
+            </label>
+          </div>
+          <div className="signup-out-create">
+            <button
+              className="signup-create"
+              onClick={() => {
+                signupHandler(userData);
+                // signup();
+              }}
+            >
+              Create New Account
+            </button>
+          </div>
+          <div className="go-login">
+            Already Have an Account <NavLink to="/login">Login</NavLink>
+          </div>
+        </div>
       </div>
-      <div>
-        <label for="firstName">
-          First Name:{" "}
-          <input
-            type="text"
-            id="firstName"
-            onClick={(e) => setFirstName(e.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label for="lastName">
-          Last Name:{" "}
-          <input
-            type="text"
-            id="lastName"
-            onClick={(e) => setLastName(e.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label for="password">
-          Password:{" "}
-          <input
-            type="password"
-            id="password"
-            onClick={(e) => setPassword(e.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label for="confirmPassword">
-          Confirm Password:{" "}
-          <input
-            type="password"
-            id="confirmPassword"
-            onClick={(e) => setConfirmPassword(e.target.value)}
-          />
-        </label>
-      </div>
-      <button
-        onClick={() => {
-          // signUpHandler();
-          signup();
-        }}
-      >
-        Create New Account
-      </button>
     </div>
   );
 };

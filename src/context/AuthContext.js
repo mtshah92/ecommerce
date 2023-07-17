@@ -1,96 +1,135 @@
 import { createContext, useReducer, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [firstName, setFirstName] = useState();
-  const [lastName, setLastName] = useState();
-  const [confirmPassword, setConfirmPassword] = useState();
+  const navigate = useNavigate();
+  const initialState = {
+    currentUser: [],
+  };
 
-  const [userlogin, setuserLogin] = useState();
+  const authHandler = (state, action) => {
+    switch (action.type) {
+      case "login":
+        return { ...state, currentUser: action.payload };
+      case "signup":
+        return { ...state, currentUser: action.payload };
+      case "logout":
+        return { ...state, currentUser: [] };
+      default:
+        return state;
+    }
+  };
 
-  const login = async () => {
-    const creds = {
-      email: email,
-      password: password,
-    };
-
+  const loginHandler = async (credentials) => {
     try {
-      const data = await fetch("/api/auth/login", {
-        method: "POST",
-        body: JSON.stringify(creds),
-      });
-      const response = await data.json();
-      const { encodedToken, foundUser } = response;
-
-      dispatch({ type: "userData", data: foundUser });
-
-      localStorage.setItem("token", encodedToken);
-
-      return response;
+      const response = await axios.post("/api/auth/login", credentials, {});
+      dispatch({ type: "login", payload: response.data.foundUser });
+      localStorage.setItem("user", response.data.foundUser);
+      localStorage.setItem("encodedToken", response.data.encodedToken);
+      navigate("/");
     } catch (e) {
       console.log(e);
     }
   };
 
-  const signup = async () => {
-    const userDetails = {
-      email: email,
-      password: password,
-      firstName: firstName,
-      lastName: lastName,
-    };
+  const signupHandler = async (userData) => {
     try {
-      if (password === confirmPassword) {
-        console.log(userDetails);
-        const response = await fetch("/api/auth/signup", {
-          method: "POST",
-          body: JSON.stringify(userDetails),
-        });
-        const data = await response.json();
-
-        const { encodedToken, createdUser } = data;
-        // console.log(encodedToken, createdUser);
-        // localStorage.setItem("token", encodedToken);
-      }
+      const response = await axios.post("/api/auth/signup", userData, {});
+      console.log(response.data);
+      dispatch({ type: "signup", payload: response.data.createdUser });
+      localStorage.setItem("user", response.data.createdUser);
+      localStorage.setItem("encodedToken", response.data.encodedToken);
+      navigate("/");
     } catch (e) {
       console.error(e);
     }
   };
 
-  const loginHandler = () => {
-    if (userData) {
-      setuserLogin(true);
-    }
-  };
-
   const logoutHandler = () => {
-    localStorage.setItem("token", false);
-    setuserLogin(false);
+    dispatch({ type: "logout" });
+    navigate("/login");
   };
 
-  const dataHandler = (state, action) => {
-    if (action.type === "userData") {
-      return action.data;
-    }
-  };
-  const [userData, dispatch] = useReducer(dataHandler, []);
-  // console.log(userData);
+  // const login = async () => {
+  //   const creds = {
+  //     email: email,
+  //     password: password,
+  //   };
+
+  //   try {
+  //     const data = await fetch("/api/auth/login", {
+  //       method: "POST",
+  //       body: JSON.stringify(creds),
+  //     });
+  //     const response = await data.json();
+  //     const { encodedToken, foundUser } = response;
+
+  //     dispatch({ type: "userData", data: foundUser });
+
+  //     localStorage.setItem("token", encodedToken);
+
+  //     return response;
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
+
+  // const signup = async () => {
+  //   const userDetails = {
+  //     email: email,
+  //     password: password,
+  //     firstName: firstName,
+  //     lastName: lastName,
+  //   };
+  //   try {
+  //     if (password === confirmPassword) {
+  //       console.log(userDetails);
+  //       const response = await fetch("/api/auth/signup", {
+  //         method: "POST",
+  //         body: JSON.stringify(userDetails),
+  //       });
+  //       const data = await response.json();
+
+  //       const { encodedToken, createdUser } = data;
+  //       // console.log(encodedToken, createdUser);
+  //       // localStorage.setItem("token", encodedToken);
+  //     }
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
+
+  // const loginHandler = () => {
+  //   if (userData) {
+  //     setuserLogin(true);
+  //   }
+  // };
+
+  // const logoutHandler = () => {
+  //   localStorage.setItem("token", false);
+  //   setuserLogin(false);
+  // };
+
+  // const dataHandler = (state, action) => {
+  //   if (action.type === "userData") {
+  //     return action.data;
+  //   }
+  // };
+  // const [userData, dispatch] = useReducer(dataHandler, []);
+  const [authState, dispatch] = useReducer(authHandler, initialState);
+  // console.log(authState);
+
   return (
     <AuthContext.Provider
       value={{
-        setEmail,
-        setPassword,
-        setFirstName,
-        setLastName,
-        setConfirmPassword,
-        login,
-        signup,
+        authState,
         loginHandler,
+        signupHandler,
         logoutHandler,
-        userlogin,
+        // userlogin,
       }}
     >
       {children}

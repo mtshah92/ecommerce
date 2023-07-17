@@ -3,14 +3,10 @@ import { Navigate, useLocation } from "react-router";
 import { AuthContext } from "../../context/AuthContext";
 
 export const RequireAuth = ({ children }) => {
-  const { userlogin } = useContext(AuthContext);
+  const { userlogin, authState } = useContext(AuthContext);
   const location = useLocation();
-  const login = localStorage.getItem("token");
-  console.log(login);
+  const token = localStorage.getItem("encodedToken");
+  // console.log(token);
   // login !== "false"
-  return userlogin ? (
-    children
-  ) : (
-    <Navigate to="/login" state={{ from: location }} />
-  );
+  return token ? children : <Navigate to="/login" state={{ from: location }} />;
 };

@@ -6,7 +6,14 @@ export const Profile = () => {
   return (
     <div>
       <h2>Profile</h2>
-      <button onClick={logoutHandler}>Log Out</button>
+      <button
+        onClick={() => {
+          logoutHandler();
+          localStorage.removeItem("encodedToken");
+        }}
+      >
+        Log Out
+      </button>
     </div>
   );
 };

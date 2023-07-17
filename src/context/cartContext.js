@@ -3,7 +3,7 @@ import { createContext, useReducer, useState } from "react";
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("encodedtoken");
 
   // get cart
   const getcart = async () => {

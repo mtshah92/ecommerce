@@ -8,8 +8,8 @@ import headerLogo from "../../images/custoFriendLogo.png";
 import "./navigation.css";
 
 export const NavBar = ({ page }) => {
-  // const { cartState } = useContext(CartContext);
-  // const { wishListState } = useContext(WishListContext);
+  const { cartState } = useContext(CartContext);
+  const { wishListState } = useContext(WishListContext);
   const { search, setSearch } = useContext(ProductContext);
   const navigate = useNavigate();
   const handleKey = (event) => {
@@ -38,19 +38,18 @@ export const NavBar = ({ page }) => {
         />
       )}
       <div className="nav-links">
-        <NavLink to="/products" className="products-navbar">
-          Products
-        </NavLink>
         <NavLink to="/wishList" className="wishList-navbar">
-          WishList
+          {/* WishList */}
+          <i className="bi bi-heart"></i>
           {/* ({wishListState.length}) */}
         </NavLink>
         <NavLink to="/cart" className="cart-navbar">
-          Cart
+          {/* Cart */}
+          <i className="bi bi-cart2"></i>
           {/* ({cartState.length}) */}
         </NavLink>
         <NavLink to="/profile" className="profile-navbar">
-          Profile{" "}
+          <i className="bi bi-person-circle"></i>
         </NavLink>
       </div>
     </div>

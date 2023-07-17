@@ -13,12 +13,12 @@ export const ProductList = () => {
     useContext(ProductContext);
   const { getcart, updateCart, cartdetails } = useContext(CartContext);
   const { updateWishlist, wishlistdata } = useContext(WishListContext);
-  const { userlogin } = useContext(AuthContext);
+  const { userlogin, authState } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const info = data();
   // console.log(info);
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("encodedToken");
   return (
     <div>
       <NavBar />
@@ -53,6 +53,7 @@ export const ProductList = () => {
         </div> */}
 
           <div>
+            <h3>Price Range</h3>
             <input
               type="range"
               min="100"
@@ -168,7 +169,7 @@ export const ProductList = () => {
                   ) : (
                     <button
                       onClick={() => {
-                        if (userlogin) {
+                        if (authState.currentUser) {
                           updateCart(item);
                           getcart();
                         } else {
@@ -194,7 +195,7 @@ export const ProductList = () => {
                   ) : (
                     <button
                       onClick={() => {
-                        if (userlogin) {
+                        if (authState.currentUser) {
                           updateWishlist(item);
                         } else {
                           navigate("/login");

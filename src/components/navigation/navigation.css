@@ -16,24 +16,22 @@
   justify-content: start;
   margin-left: 0.5rem;
 }
-
 .search-bar {
   width: 30%;
   justify-content: center;
   margin-left: 30px;
+}
+.bi {
+  font-size: 24px;
 }
 
 .nav-links {
   justify-content: end;
 }
 
-.profile-navbar {
-  padding: 0.75rem;
-}
-.cart-navbar {
-  padding: 1rem;
-}
-
+.profile-navbar,
+.cart-navbar,
 .wishList-navbar {
-  padding: 0.75rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
