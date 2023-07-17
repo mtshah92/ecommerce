@@ -121,6 +121,7 @@ export const ProductProvider = ({ children }) => {
         data,
         sortHandler,
         checkboxHandler,
+        search,
         setSearch,
         cartHandler,
         wishListHandler,

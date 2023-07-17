@@ -7,7 +7,11 @@
   box-shadow: 5px 5px 5px grey;
   min-height: 8vh;
 }
-
+.header-logo {
+  width: 150px;
+  height: 70px;
+  margin: 0;
+}
 .home {
   justify-content: start;
   margin-left: 0.5rem;
