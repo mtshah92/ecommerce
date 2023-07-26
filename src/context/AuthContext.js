@@ -12,11 +12,12 @@ export const AuthProvider = ({ children }) => {
     currentUser: [],
   };
 
-  const [token, setToken] = useState();
-  // JSON.parse(localStorage.getItem("encodedToken"))
-  const [user, setUser] =
-    useState();
-    // JSON.parse(localStorage.getItem("user"))
+  const [token, setToken] = useState(
+    JSON.parse(localStorage.getItem("encodedToken"))
+  );
+
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  //
 
   const authHandler = (state, action) => {
     switch (action.type) {
