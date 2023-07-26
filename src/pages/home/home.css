@@ -13,6 +13,12 @@
   height: max-content;
   padding: 0.5rem;
 }
+
+.category-card:hover {
+  box-shadow: 0 0 8px grey;
+  transition: transform 0.2s;
+  transform: scale(1.1);
+}
 .category-name {
   font-weight: 700;
   color: #4a55a2;
@@ -29,6 +35,7 @@
   margin: 1rem;
   padding: 0.5rem;
   cursor: pointer;
+  border-radius: 0.5rem;
 }
 .about-category {
   text-align: left;

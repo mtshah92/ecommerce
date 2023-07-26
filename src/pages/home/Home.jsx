@@ -1,16 +1,19 @@
 import { useContext } from "react";
 import { CategoryContext } from "../../context/categoryContext";
 import { NavBar } from "../../components/navigation/navigation";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import CoverImage from "../../images/main-banner-1_1903x923.webp";
 import fiction from "../../images/jbareham_201014_1047_scifi_books_essentials_02.0-removebg-preview.png";
 import nonFiction from "../../images/top-10-nonfiction-2019-removebg-preview.png";
 import horror from "../../images/img_9971-removebg-preview.png";
+import { ProductContext } from "../../context/productContext";
 
 import "./home.css";
 
 export const Home = () => {
   const { categories } = useContext(CategoryContext);
+  const { productdispatch } = useContext(ProductContext);
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -27,7 +30,18 @@ export const Home = () => {
       <h2>Categories</h2>
       <div className="category-container">
         {categories.map((item) => (
-          <div className="category-card">
+          <div
+            className="category-card"
+            onClick={() => {
+              navigate("/products");
+              productdispatch({
+                type: "checkbox",
+                payload: {
+                  target: { checked: true, value: item.categoryName },
+                },
+              });
+            }}
+          >
             <div className="about-category">
               <h3 className="category-name">{item.categoryName}</h3>
               <p className="category-description">{item.description}</p>

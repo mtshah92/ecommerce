@@ -1,0 +1,15 @@
+.order-summary {
+  margin: auto;
+  width: 20%;
+  border: 1px solid;
+  height: max-content;
+  padding: 0.5rem;
+  line-height: 0.1;
+}
+
+.order-placed {
+  color: green;
+}
+.delivery-address {
+  line-height: 1;
+}

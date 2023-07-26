@@ -3,6 +3,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { NavBar } from "../../components/navigation/navigation";
 import "./signup.css";
 import { NavLink } from "react-router-dom";
+import { CartContext } from "../../context/cartContext";
 
 export const SignUp = () => {
   const { signupHandler, signup } = useContext(AuthContext);
@@ -97,6 +98,7 @@ export const SignUp = () => {
               className="signup-create"
               onClick={() => {
                 signupHandler(userData);
+
                 // signup();
               }}
             >

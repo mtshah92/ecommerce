@@ -1,9 +1,10 @@
-import { createContext, useReducer, useState } from "react";
+import { createContext, useEffect, useReducer } from "react";
+import { toast } from "react-toastify";
 
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const token = localStorage.getItem("encodedtoken");
+  const token = localStorage.getItem("encodedToken");
 
   // get cart
   const getcart = async () => {
@@ -23,7 +24,7 @@ export const CartProvider = ({ children }) => {
   // add to cart
   const updateCart = async (data) => {
     const product = { product: data };
-    console.log(product);
+    // console.log(product);
     try {
       const response = await fetch("/api/user/cart", {
         method: "POST",
@@ -32,10 +33,11 @@ export const CartProvider = ({ children }) => {
         },
         body: JSON.stringify(product),
       });
-
-      console.log(await response.json());
+      toast.success("Product Added to Cart");
+      // console.log(await response.json());
     } catch (e) {
-      console.log(e);
+      toast.error(...e.response.data.errors);
+      // console.log(e);
     }
   };
 
@@ -54,8 +56,12 @@ export const CartProvider = ({ children }) => {
       });
 
       dispatch({ type: "update", updatedCart: await response.json() });
+      type === "increase"
+        ? toast.success("Quantity increased by 1")
+        : toast.success("Quantity decreased by 1");
     } catch (e) {
-      console.log(e);
+      toast.error(...e.response.data.errors);
+      // console.log(e);
     }
   };
 
@@ -71,8 +77,10 @@ export const CartProvider = ({ children }) => {
         },
       });
       dispatch({ type: "delete", data: await response.json() });
+      toast.success("Removed from Cart");
     } catch (e) {
-      console.error(e);
+      toast.error(...e.response.data.errors);
+      // console.error(e);
     }
   };
 
@@ -127,9 +135,14 @@ export const CartProvider = ({ children }) => {
     if (action.type === "update") {
       return action.updatedCart;
     }
+    return state;
   };
+  useEffect(() => {
+    getcart();
+  }, []);
   const [cartdetails, dispatch] = useReducer(cartHandler, []);
-  console.log(cartdetails);
+  // console.log(cartdetails);
+
   return (
     <CartContext.Provider
       value={{

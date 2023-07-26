@@ -58,6 +58,6 @@ export const products = [
     price: "300",
     rating: "4.5",
     categoryName: "horror",
-    url: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1662500006i/62315614.jpg",
+    url: "https://m.media-amazon.com/images/I/41lhTyHPIrL._SX330_BO1,204,203,200_.jpg",
   },
 ];

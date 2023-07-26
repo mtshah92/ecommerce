@@ -4,9 +4,11 @@ import { useLocation, useNavigate } from "react-router";
 import { NavLink } from "react-router-dom";
 import "./login.css";
 import { NavBar } from "../../components/navigation/navigation";
+import { CartContext } from "../../context/cartContext";
 
 export const Login = () => {
   const { loginHandler } = useContext(AuthContext);
+
   const location = useLocation();
   const navigate = useNavigate();
   const pageHandler = () => {
@@ -78,6 +80,7 @@ export const Login = () => {
               onClick={() => {
                 // login();
                 loginHandler(loginCredentials);
+
                 // pageHandler();
               }}
             >
@@ -93,6 +96,7 @@ export const Login = () => {
                   password: "test",
                 });
                 loginHandler({ email: "test@gmail.com", password: "test" });
+
                 // pageHandler();
               }}
             >

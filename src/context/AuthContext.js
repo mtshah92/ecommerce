@@ -1,14 +1,21 @@
 import { createContext, useReducer, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
+
   const initialState = {
     currentUser: [],
   };
+
+  const [token, setToken] = useState(
+    JSON.parse(localStorage.getItem("encodedToken"))
+  );
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
   const authHandler = (state, action) => {
     switch (action.type) {
@@ -27,30 +34,49 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await axios.post("/api/auth/login", credentials, {});
       dispatch({ type: "login", payload: response.data.foundUser });
-      localStorage.setItem("user", response.data.foundUser);
-      localStorage.setItem("encodedToken", response.data.encodedToken);
+      setUser(response.data.foundUser);
+      localStorage.setItem("user", JSON.stringify(response.data.foundUser));
+      localStorage.setItem(
+        "encodedToken",
+        JSON.stringify(response.data.encodedToken)
+      );
+      setToken(response.data.encodedToken);
+      toast.success("Login Successful");
       navigate("/");
     } catch (e) {
-      console.log(e);
+      toast.error(...e.response.data.errors);
+      // console.log(e);
     }
   };
 
   const signupHandler = async (userData) => {
     try {
       const response = await axios.post("/api/auth/signup", userData, {});
-      console.log(response.data);
+      // console.log(response.data);
       dispatch({ type: "signup", payload: response.data.createdUser });
-      localStorage.setItem("user", response.data.createdUser);
-      localStorage.setItem("encodedToken", response.data.encodedToken);
+      setUser(response.data.createdUser);
+      localStorage.setItem("user", JSON.stringify(response.data.createdUser));
+      localStorage.setItem(
+        "encodedToken",
+        JSON.stringify(response.data.encodedToken)
+      );
+      setToken(response.data.encodedToken);
+      toast.success("Signin Successful");
       navigate("/");
     } catch (e) {
-      console.error(e);
+      toast.error(...e.response.data.errors);
+      // console.error(e);
     }
   };
 
   const logoutHandler = () => {
     dispatch({ type: "logout" });
+    localStorage.removeItem("encodedToken");
+    localStorage.removeItem("user");
+    setUser();
+    setToken();
     navigate("/login");
+    toast.success("Logged Out");
   };
 
   // const login = async () => {
@@ -129,6 +155,8 @@ export const AuthProvider = ({ children }) => {
         loginHandler,
         signupHandler,
         logoutHandler,
+        token,
+        user,
         // userlogin,
       }}
     >

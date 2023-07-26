@@ -1,0 +1,59 @@
+.checkout-content {
+  display: flex;
+  height: 100vh;
+}
+.address {
+  margin-left: 200px;
+  width: 400px;
+  border: 1px solid;
+  height: max-content;
+  padding: 0.5rem;
+}
+.checkout-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.checkout-item-list {
+  line-height: 0;
+}
+.address {
+  display: flex;
+  text-align: left;
+  align-items: center;
+  justify-content: space-around;
+  line-height: 0.1;
+}
+.order-details {
+  margin-left: 4rem;
+  width: 300px;
+  line-height: 0.1;
+  height: max-content;
+  box-shadow: 1px 1px 10px #d5d4d4;
+  padding: 1rem;
+}
+
+.delivery-address {
+  text-align: left;
+}
+
+.price-details,
+.order-details-title,
+.deliver-to,
+.checkout-item-name,
+.checkout-qty-name,
+.cart-total,
+.cart-total-price {
+  font-weight: 700;
+}
+
+.place-order-btn {
+  width: 150px;
+  margin-top: 1rem;
+  padding: 0.5rem;
+}
+
+.edit-add {
+  margin-right: 0.5rem;
+}

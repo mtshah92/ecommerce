@@ -1,0 +1,27 @@
+.selected-product-page {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 7%;
+  margin-left: 30%;
+  width: 35%;
+  padding: 0.5rem;
+  align-items: center;
+  height: max-content;
+  border: 1px solid;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 4px grey;
+}
+.author,
+.category {
+  font-weight: 700;
+}
+.prd-img {
+  height: 300px;
+  width: 200px;
+}
+.product-category-name {
+  text-transform: capitalize;
+}
+.selected-product-description {
+  text-align: left;
+}

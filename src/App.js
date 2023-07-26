@@ -9,16 +9,20 @@ import { Login } from "./pages/login/login";
 import { Profile } from "./pages/profile/profile";
 import { RequireAuth } from "./components/auth/RequireAuth";
 import { SignUp } from "./pages/signup/signup";
-import { NavBar } from "./components/navigation/navigation";
+import { CheckOut } from "./pages/checkout/checkout";
+import { OrderSummary } from "./pages/orderSummary/orderSummary";
+import { ProductPage } from "./pages/productPage/productPage";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
     <div className="App">
-     
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/mockman" element={<Mockman />} />
         <Route path="/products" element={<ProductList />} />
+        <Route path="/products/:productId" element={<ProductPage />} />
         <Route
           path="/cart"
           element={
@@ -45,8 +49,26 @@ function App() {
             </RequireAuth>
           }
         />
+        <Route
+          path="/checkout"
+          element={
+            <RequireAuth>
+              <CheckOut />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/orderSummary"
+          element={
+            <RequireAuth>
+              <OrderSummary />
+            </RequireAuth>
+          }
+        />
+
         <Route path="/signup" element={<SignUp />} />
       </Routes>
+      <ToastContainer />
     </div>
   );
 }

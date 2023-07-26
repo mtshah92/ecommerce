@@ -10,7 +10,8 @@ import "./navigation.css";
 export const NavBar = ({ page }) => {
   const { cartState } = useContext(CartContext);
   const { wishListState } = useContext(WishListContext);
-  const { search, setSearch } = useContext(ProductContext);
+  const { search, setSearch, productState, productdispatch } =
+    useContext(ProductContext);
   const navigate = useNavigate();
   const handleKey = (event) => {
     if (event.key === "Enter") {
@@ -26,15 +27,21 @@ export const NavBar = ({ page }) => {
         <input
           placeholder="search"
           className="search-bar"
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => {
+            // setSearch(e.target.value);
+            productdispatch({ type: "search", payload: e.target.value });
+          }}
           onKeyDown={handleKey}
         />
       ) : (
         <input
           placeholder="search"
           className="search-bar"
-          onChange={(e) => setSearch(e.target.value)}
-          value={search}
+          onChange={(e) => {
+            // setSearch(e.target.value);
+            productdispatch({ type: "search", payload: e.target.value });
+          }}
+          value={productState.search}
         />
       )}
       <div className="nav-links">

@@ -6,6 +6,8 @@
   width: 100%;
   box-shadow: 5px 5px 5px grey;
   min-height: 8vh;
+  /* position: fixed; */
+  /* z-index: 1000; */
 }
 .header-logo {
   width: 150px;

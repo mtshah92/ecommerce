@@ -1,9 +1,10 @@
 import { createContext, useReducer } from "react";
+import { toast } from "react-toastify";
 
 export const WishListContext = createContext();
 
 export const WishListProvider = ({ children }) => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("encodedToken");
 
   // updateWishList
   const updateWishlist = async (data) => {
@@ -18,9 +19,11 @@ export const WishListProvider = ({ children }) => {
         body: JSON.stringify(product),
       });
       dispatch({ type: "update", data: await response.json() });
+      toast.success("Product Added to Wishlist");
       // console.log(await response.json());
     } catch (e) {
-      console.error(e);
+      toast.error(...e.response.data.errors);
+      // console.error(e);
     }
   };
 
@@ -49,9 +52,11 @@ export const WishListProvider = ({ children }) => {
         },
       });
       dispatch({ type: "remove", item: await response.json() });
+      toast.success("Product Removed from Wishlist");
       // console.log(await response.json());
     } catch (e) {
-      console.log(e);
+      toast.error(...e.response.data.errors);
+      // console.log(e);
     }
   };
 
@@ -65,7 +70,7 @@ export const WishListProvider = ({ children }) => {
   };
 
   const [wishlistdata, dispatch] = useReducer(wishListHandle, []);
-  console.log(wishlistdata);
+  // console.log(wishlistdata);
 
   //method if api is not given and simple on click of button we neet to get and manage data
   // const wishListHandler = (state, action) => {

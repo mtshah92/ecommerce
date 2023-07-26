@@ -1,132 +1,212 @@
 import { createContext, useEffect, useReducer, useState } from "react";
 import { products } from "../backend/db/products";
+import axios from "axios";
 
 export const ProductContext = createContext();
 
 export const ProductProvider = ({ children }) => {
-  const [filter, setFilter] = useState([]);
-  const [search, setSearch] = useState();
-  const [cart, setCart] = useState([]);
-  const [wishList, setWishList] = useState([]);
-  const [value, setValue] = useState();
+  // const [cart, setCart] = useState([]);
+  // const [wishList, setWishList] = useState([]);
+  const [showAddressModal, setShowAddressModal] = useState(false);
+
+  const initialData = {
+    products: [],
+    search: "",
+    value: "1000",
+    sort: "",
+    checkbox: [],
+    sortByPrice: "",
+    addresses: [
+      {
+        id: 1,
+        name: "Meet Shah",
+        mobile: "9898125225",
+        address: "Rysan",
+        pincode: 382010,
+        city: "Gandhinagar",
+        state: "Gujarat",
+      },
+    ],
+    selectedAddress: [],
+    editAddress: {},
+    newAddress: {
+      name: "",
+      mobile: "",
+      address: "",
+      pincode: "",
+      city: "",
+      state: "",
+    },
+  };
+
+  const filterHandle = (state, action) => {
+    switch (action.type) {
+      case "initialData":
+        return { ...state, products: action.payload };
+
+      case "cartAdd":
+        return state.products.map((item) => {
+          if (item._id === action.id) {
+            return { ...item, cart: true };
+          } else {
+            return item;
+          }
+        });
+
+      case "checkbox":
+        return {
+          ...state,
+          checkbox: action.payload.target.checked
+            ? [...state.checkbox, action.payload.target.value]
+            : state.checkbox.filter(
+                (item) => action.payload.target.value !== item
+              ),
+        };
+
+      case "value":
+        return { ...state, value: action.payload };
+
+      case "sort":
+        return { ...state, sort: action.payload };
+      case "search":
+        return { ...state, search: action.payload };
+
+      case "sortPrice":
+        return { ...state, sortByPrice: action.payload };
+
+      case "clearFilter":
+        return {
+          ...state,
+          checkbox: [],
+          value: "1000",
+          search: "",
+          sort: "",
+          sortByPrice: "",
+        };
+
+      case "selected_address":
+        return {
+          ...state,
+          selectedAddress: [action.payload],
+        };
+
+      case "delete_address":
+        return {
+          ...state,
+          addresses: state.addresses.filter((item) => item !== action.payload),
+        };
+      case "edit_address":
+        return {
+          ...state,
+          editAddress: action.payload,
+        };
+      case "edit_update_Address":
+        return {
+          ...state,
+          addresses: state.addresses.map((item) =>
+            item.name === action.payload.name ? { ...action.payload } : item
+          ),
+        };
+      case "update_Address":
+        return {
+          ...state,
+          addresses: [...state.addresses, action.payload],
+        };
+      default:
+        return state;
+    }
+  };
 
   const fetchProducts = async () => {
     try {
-      const data = await fetch("/api/products");
-      const productList = await data.json();
-
-      productdispatch({ payload: productList, type: "initialData" });
+      const response = await axios.get("/api/products");
+      productdispatch({ payload: response.data.products, type: "initialData" });
     } catch (e) {
       console.error(e);
     }
   };
 
-  const filterHandle = (state, action) => {
-    if (action.type === "initialData") {
-      return action.payload.products;
-    }
-    if (action.type === "cartAdd") {
-      state.map((item) => {
-        if (item._id === action.id) {
-          return { ...item, cart: true };
-        } else {
-          return item;
-        }
-      });
-    }
-  };
-
-  const [productState, productdispatch] = useReducer(filterHandle, []);
+  const [productState, productdispatch] = useReducer(filterHandle, initialData);
+  // console.log(productState);
 
   useEffect(() => fetchProducts(), []);
 
-  const sortHandler = (e) => {
-    setFilter([e.target.value]);
-  };
+  // const cartHandler = (item) => {
+  //   setCart([...cart, item]);
+  // };
+  // const wishListHandler = (item) => {
+  //   setWishList([...wishList, item]);
+  // };
 
-  const checkboxHandler = (e) => {
-    if (e.target.checked) {
-      setFilter([...filter, e.target.value]);
-    } else {
-      setFilter(filter.filter((item) => e.target.value !== item));
-    }
-  };
-  const cartHandler = (item) => {
-    setCart([...cart, item]);
-  };
-  const wishListHandler = (item) => {
-    setWishList([...wishList, item]);
-  };
-  console.log(cart);
   const data = () => {
-    let product = [...productState];
-    console.log(value);
+    let product = [...productState.products];
 
-    if (value) {
-      product = product.filter((item) => Number(item.price) <= value);
+    if (productState.search) {
+      product = product.filter((item) =>
+        item.title.toLowerCase().includes(productState.search.toLowerCase())
+      );
     }
-    if (search) {
-      product = product.filter((item) => item.title.includes(search));
-    }
-    product = product.map((item) => {
-      if (wishList.find((value) => value === item)) {
-        return { ...item, wishList: true };
-      } else {
-        return item;
-      }
-    });
-    product = product.map((item) => {
-      if (cart.find((value) => value === item)) {
-        return { ...item, cart: true };
-      } else {
-        return item;
-      }
-    });
 
-    filter.map((item) => {
-      if (item === "sortLowToHigh") {
+    if (productState.value) {
+      product = product.filter(
+        (item) => Number(item.price) <= Number(productState.value)
+      );
+    }
+    if (productState.sortByPrice) {
+      if (productState.sortByPrice === "sortLowToHigh") {
         product = [...product].sort((a, b) => a.price - b.price);
       }
-      if (item === "sortHighToLow") {
+      if (productState.sortByPrice === "sortHighToLow") {
         product = [...product].sort((a, b) => b.price - a.price);
       }
-      if (item === "horror") {
-        product = product.filter((item) => item.categoryName === "horror");
-      }
-      if (item === "fiction") {
-        product = product.filter((item) => item.categoryName === "fiction");
-      }
-      if (item === "non-fiction") {
-        product = product.filter((item) => item.categoryName === "non-fiction");
-      }
-      if (item === "morethan2") {
+    }
+
+    if (productState.sort) {
+      if (productState.sort === "morethan2") {
         product = product.filter((item) => item.rating > 2);
       }
-      if (item === "morethan3") {
+      if (productState.sort === "morethan3") {
         product = product.filter((item) => item.rating > 3);
       }
-      if (item === "morethan4") {
+      if (productState.sort === "morethan4") {
         product = product.filter((item) => item.rating > 4);
       }
-    });
+    }
+
+    if (productState.checkbox.length > 0) {
+      product = product.filter((item) =>
+        productState.checkbox.includes(item.categoryName)
+      );
+    }
+
+    // product = product.map((item) => {
+    //   if (wishList.find((value) => value === item)) {
+    //     return { ...item, wishList: true };
+    //   } else {
+    //     return item;
+    //   }
+    // });
+    // product = product.map((item) => {
+    //   if (cart.find((value) => value === item)) {
+    //     return { ...item, cart: true };
+    //   } else {
+    //     return item;
+    //   }
+    // });
 
     return product;
   };
-  // console.log(filter);
+
   return (
     <ProductContext.Provider
       value={{
         productState,
         productdispatch,
         data,
-        sortHandler,
-        checkboxHandler,
-        search,
-        setSearch,
-        cartHandler,
-        wishListHandler,
-        setValue,
-        value,
+        showAddressModal,
+        setShowAddressModal,
+        // cartHandler,
+        // wishListHandler,
       }}
     >
       {" "}
