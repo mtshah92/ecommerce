@@ -4,8 +4,8 @@ import { NavBar } from "../../components/navigation/navigation";
 
 export const Profile = () => {
   const { logoutHandler, authState, user } = useContext(AuthContext);
-  // console.log(user);
-
+  console.log(user);
+  console.log("any");
   return (
     <div>
       <NavBar />
