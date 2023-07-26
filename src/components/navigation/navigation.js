@@ -25,7 +25,7 @@ export const NavBar = ({ page }) => {
       </NavLink>
       {page ? (
         <input
-          placeholder="search"
+          placeholder="Search By Book Title"
           className="search-bar"
           onChange={(e) => {
             // setSearch(e.target.value);
@@ -35,7 +35,7 @@ export const NavBar = ({ page }) => {
         />
       ) : (
         <input
-          placeholder="search"
+          placeholder="Search By Book Title"
           className="search-bar"
           onChange={(e) => {
             // setSearch(e.target.value);

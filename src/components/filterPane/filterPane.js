@@ -4,7 +4,7 @@ import { ProductContext } from "../../context/productContext";
 
 export const FilterPane = () => {
   const { productState, productdispatch } = useContext(ProductContext);
-  // console.log(productState.checkbox);
+  console.log(productState.checkbox?.find((item) => item === "fiction"));
   return (
     <div className="filter">
       <div className="filterName">
@@ -80,9 +80,12 @@ export const FilterPane = () => {
             type="checkbox"
             id="non-fiction"
             value="non-fiction"
-            checked={productState.checkbox.find(
-              (item) => item === "non-fiction"
-            )}
+            checked={
+              productState.checkbox.find((item) => item === "non-fiction") ==
+              undefined
+                ? false
+                : productState.checkbox.find((item) => item === "non-fiction")
+            }
             onChange={(e) => {
               productdispatch({ type: "checkbox", payload: e });
             }}
@@ -97,7 +100,12 @@ export const FilterPane = () => {
             onChange={(e) => {
               productdispatch({ type: "checkbox", payload: e });
             }}
-            checked={productState.checkbox.find((item) => item === "fiction")}
+            checked={
+              productState.checkbox?.find((item) => item === "fiction") ==
+              undefined
+                ? false
+                : productState.checkbox?.find((item) => item === "fiction")
+            }
           />
           <label for="fiction">Fiction</label>
         </div>
@@ -109,7 +117,12 @@ export const FilterPane = () => {
             onChange={(e) => {
               productdispatch({ type: "checkbox", payload: e });
             }}
-            checked={productState.checkbox.find((item) => item === "horror")}
+            checked={
+              productState.checkbox.find((item) => item === "horror") ==
+              undefined
+                ? false
+                : productState.checkbox.find((item) => item === "horror")
+            }
           />
           <label for="horror">Horror</label>
         </div>

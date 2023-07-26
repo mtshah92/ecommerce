@@ -120,7 +120,7 @@ export const AddressModal = ({ editAdd, setEditAdd }) => {
                 });
           }}
         >
-          {editAdd ? "Edit" : "Add"}
+          {editAdd ? "Save" : "Add"}
         </button>
         <button
           className="address-update-btn"

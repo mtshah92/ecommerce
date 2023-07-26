@@ -37,7 +37,11 @@ export const Home = () => {
               productdispatch({
                 type: "checkbox",
                 payload: {
-                  target: { checked: true, value: item.categoryName },
+                  target: {
+                    any: "value",
+                    // checked: true,
+                    value: item.categoryName,
+                  },
                 },
               });
             }}

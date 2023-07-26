@@ -7,7 +7,8 @@ import { CartContext } from "../../context/cartContext";
 
 export const SignUp = () => {
   const { signupHandler, signup } = useContext(AuthContext);
-
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [userData, setUserData] = useState({
     email: "",
     password: "",
@@ -70,13 +71,24 @@ export const SignUp = () => {
               Password{" "}
               <div className="signup-password">
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Password"
                   id="password"
                   onChange={(e) => {
                     setUserData({ ...userData, password: e.target.value });
                   }}
                 />
+                {!showPassword ? (
+                  <i
+                    class="bi bi-eye-slash-fill toggle-password"
+                    onClick={() => setShowPassword(true)}
+                  ></i>
+                ) : (
+                  <i
+                    class="bi bi-eye-fill toggle-password"
+                    onClick={() => setShowPassword(false)}
+                  ></i>
+                )}
               </div>
             </label>
           </div>
@@ -85,11 +97,22 @@ export const SignUp = () => {
               Confirm Password{" "}
               <div className="signup-confirmPassword">
                 <input
-                  type="password"
+                  type={showConfirmPassword ? "text" : "password"}
                   id="confirmPassword"
                   placeholder="Confirm Password"
                   // onClick={(e) => setConfirmPassword(e.target.value)}
                 />
+                {!showConfirmPassword ? (
+                  <i
+                    class="bi bi-eye-slash-fill toggle-password"
+                    onClick={() => setShowConfirmPassword(true)}
+                  ></i>
+                ) : (
+                  <i
+                    class="bi bi-eye-fill toggle-password"
+                    onClick={() => setShowConfirmPassword(false)}
+                  ></i>
+                )}
               </div>
             </label>
           </div>

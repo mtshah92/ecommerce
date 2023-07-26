@@ -56,11 +56,13 @@ export const ProductProvider = ({ children }) => {
       case "checkbox":
         return {
           ...state,
-          checkbox: action.payload.target.checked
-            ? [...state.checkbox, action.payload.target.value]
-            : state.checkbox.filter(
-                (item) => action.payload.target.value !== item
-              ),
+          checkbox:
+            action.payload.target.checked ||
+            action.payload.target.any === "value"
+              ? [...state.checkbox, action.payload.target.value]
+              : state.checkbox.filter(
+                  (item) => action.payload.target.value !== item
+                ),
         };
 
       case "value":
@@ -127,7 +129,7 @@ export const ProductProvider = ({ children }) => {
   };
 
   const [productState, productdispatch] = useReducer(filterHandle, initialData);
-  // console.log(productState);
+  // console.log(productState.checkbox);
 
   useEffect(() => fetchProducts(), []);
 

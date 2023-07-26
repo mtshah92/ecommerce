@@ -70,7 +70,11 @@ export const Cart = () => {
                           }
                         }}
                       >
-                        Add to WishList
+                        {wishlistdata?.wishlist?.find(
+                          (value) => value._id === _id
+                        )
+                          ? "Added to WishList"
+                          : "Add to WishList"}
                       </button>
                       <button onClick={() => removeFromCart(_id)}>
                         Remove from Cart
