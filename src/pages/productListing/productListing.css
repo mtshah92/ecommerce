@@ -41,11 +41,7 @@
 .add-to-cart-btn {
   margin-right: 0.2rem;
 }
-.add-to-cart-btn,
-.add-to-wishlist-btn {
-  /* border-radius: 0.5rem;
-  border: none; */
-}
+
 .add-to-cart-btn:hover,
 .add-to-wishlist-btn:hover {
   background-color: #4e4feb;
