@@ -25,95 +25,98 @@ export const ProductList = () => {
         <FilterPane />
 
         <div className="products">
-          {info.map((item) => {
-            const {
-              _id,
-              title,
-              author,
-              price,
-              categoryName,
-              rating,
-              url,
-              cart,
-              wishList,
-            } = item;
-            return (
-              <div key={_id} className="product-card">
-                <img
-                  src={url}
-                  width="200px"
-                  height="200px"
-                  alt={title}
-                  onClick={() => navigate(`/products/${_id}`)}
-                />
-                <p>
-                  {title} By {author}
-                </p>
-                <p className="rating"> ★{rating} </p>
-                <p className="price">₹{price}</p>
+          {info.length == 0 ? (
+            <h2>We couldn't find such book,Try again</h2>
+          ) : (
+            info.map((item) => {
+              const {
+                _id,
+                title,
+                author,
+                price,
+                categoryName,
+                rating,
+                url,
+                cart,
+                wishList,
+              } = item;
+              return (
+                <div key={_id} className="product-card">
+                  <img
+                    src={url}
+                    width="200px"
+                    height="200px"
+                    alt={title}
+                    onClick={() => navigate(`/products/${_id}`)}
+                  />
+                  <p>
+                    {title} By {author}
+                  </p>
+                  <p className="rating"> ★{rating} </p>
+                  <p className="price">₹{price}</p>
 
-                <div className="buttons">
-                  {/* {token
+                  <div className="buttons">
+                    {/* {token
                     ? cartdetails.cart?.find((value) => value._id === _id)
                       ? navigate("/cart")
                       : updateCart(item)
                     : navigate("/login")} */}
-                  <button
-                    className="add-to-cart-btn"
-                    onClick={() => {
-                      if (token) {
-                        if (
-                          cartdetails.cart?.find((value) => value._id === _id)
-                        ) {
-                          navigate("/cart");
+                    <button
+                      className="add-to-cart-btn"
+                      onClick={() => {
+                        if (token) {
+                          if (
+                            cartdetails.cart?.find((value) => value._id === _id)
+                          ) {
+                            navigate("/cart");
+                          } else {
+                            updateCart(item);
+                            getcart();
+                          }
                         } else {
-                          updateCart(item);
-                          getcart();
+                          navigate("/login");
                         }
-                      } else {
-                        navigate("/login");
-                      }
-                    }}
-                  >
-                    {cartdetails.cart?.find(
-                      (value) => value._id === _id && token
-                    ) ? (
-                      <Link to="/cart">Go To Cart</Link>
-                    ) : (
-                      "Add to Cart"
-                    )}
-                  </button>
+                      }}
+                    >
+                      {cartdetails.cart?.find(
+                        (value) => value._id === _id && token
+                      ) ? (
+                        <Link to="/cart">Go To Cart</Link>
+                      ) : (
+                        "Add to Cart"
+                      )}
+                    </button>
 
-                  <button
-                    className="add-to-wishlist-btn"
-                    onClick={() => {
-                      if (token) {
-                        if (
-                          wishlistdata?.wishlist?.find(
-                            (value) => value._id === _id
-                          )
-                        ) {
-                          console.log("in");
-                          navigate("/wishList");
+                    <button
+                      className="add-to-wishlist-btn"
+                      onClick={() => {
+                        if (token) {
+                          if (
+                            wishlistdata?.wishlist?.find(
+                              (value) => value._id === _id
+                            )
+                          ) {
+                            console.log("in");
+                            navigate("/wishList");
+                          } else {
+                            console.log("out");
+                            updateWishlist(item);
+                          }
                         } else {
-                          console.log("out");
-                          updateWishlist(item);
+                          navigate("/login");
                         }
-                      } else {
-                        navigate("/login");
-                      }
-                    }}
-                  >
-                    {wishlistdata?.wishlist?.find(
-                      (value) => value._id === _id
-                    ) ? (
-                      <Link to="/wishList">Go To Wishlist</Link>
-                    ) : (
-                      "Add to WishList"
-                    )}
-                  </button>
+                      }}
+                    >
+                      {wishlistdata?.wishlist?.find(
+                        (value) => value._id === _id
+                      ) ? (
+                        <Link to="/wishList">Go To Wishlist</Link>
+                      ) : (
+                        "Add to WishList"
+                      )}
+                    </button>
 
-                  {/* {cartdetails.cart?.find((value) => value._id === _id) ? (
+                    {/* {cartdetails.cart?.find((value) => value._id === _id) ? (
                     token == false ? (
                       <button
                         onClick={() => navigate("/login")}
@@ -149,7 +152,7 @@ export const ProductList = () => {
                     </button>
                   )} */}
 
-                  {/* {wishlistdata?.wishlist?.find(
+                    {/* {wishlistdata?.wishlist?.find(
                     (value) => value._id === _id
                   ) ? (
                     token == false ? (
@@ -175,10 +178,11 @@ export const ProductList = () => {
                       Add to WishList
                     </button>
                   )} */}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
       </div>
     </div>
