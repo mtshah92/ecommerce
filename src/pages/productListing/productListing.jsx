@@ -1,19 +1,20 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 
 import { ProductContext } from "../../context/productContext";
 import { CartContext } from "../../context/cartContext";
 import { WishListContext } from "../../context/wishListContext";
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { NavBar } from "../../components/navigation/navigation";
 import "./productListing.css";
 import { FilterPane } from "../../components/filterPane/filterPane";
 
 export const ProductList = () => {
-  const { data, productState, productdispatch } = useContext(ProductContext);
+  const { data } = useContext(ProductContext);
   const { getcart, updateCart, cartdetails } = useContext(CartContext);
-  const { updateWishlist, wishlistdata } = useContext(WishListContext);
-  const { userlogin, authState, token } = useContext(AuthContext);
+  const { updateWishlist, wishlistdata, removeFromWishList } =
+    useContext(WishListContext);
+  const { token } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const info = data();
@@ -26,7 +27,9 @@ export const ProductList = () => {
 
         <div className="products">
           {info.length == 0 ? (
-            <h2>We couldn't find such book,Try again</h2>
+            <h2 className="empty-books">
+              Sorry , Products are not available for such search.
+            </h2>
           ) : (
             info.map((item) => {
               const {
@@ -44,16 +47,52 @@ export const ProductList = () => {
                 <div key={_id} className="product-card">
                   <img
                     src={url}
-                    width="200px"
-                    height="200px"
                     alt={title}
                     onClick={() => navigate(`/products/${_id}`)}
+                    className="product-img"
                   />
-                  <p>
-                    {title} By {author}
-                  </p>
-                  <p className="rating"> ★{rating} </p>
-                  <p className="price">₹{price}</p>
+
+                  <span
+                    className="add-to-wishlist-btn"
+                    onClick={() => {
+                      if (token) {
+                        if (
+                          wishlistdata?.wishlist?.find(
+                            (value) => value._id === _id
+                          )
+                        ) {
+                          removeFromWishList(_id);
+                        } else {
+                          updateWishlist(item);
+                        }
+                      } else {
+                        navigate("/login");
+                      }
+                    }}
+                  >
+                    {wishlistdata?.wishlist?.find(
+                      (value) => value._id === _id
+                    ) ? (
+                      <i className="bi bi-heart bi-suit-heart-fill red-color filled-wishlist"></i>
+                    ) : (
+                      <i class="bi bi-heart fill-wishlist"></i>
+                    )}
+                  </span>
+
+                  <div className="product-card-info">
+                    <div className="product-title-container">
+                      <div className="product-title">
+                        <h3 className="product-title-header">{title}</h3>
+                        <div className="product-rating">
+                          {rating} <i class="bi bi-star-fill"></i>
+                        </div>
+                      </div>
+                      <p className="product-author">{author}</p>
+                    </div>
+                    <div className="product-price">
+                      <p className="price">₹{price}</p>
+                    </div>
+                  </div>
 
                   <div className="buttons">
                     {/* {token
@@ -61,123 +100,37 @@ export const ProductList = () => {
                       ? navigate("/cart")
                       : updateCart(item)
                     : navigate("/login")} */}
-                    <button
-                      className="add-to-cart-btn"
-                      onClick={() => {
-                        if (token) {
-                          if (
-                            cartdetails.cart?.find((value) => value._id === _id)
-                          ) {
-                            navigate("/cart");
-                          } else {
-                            updateCart(item);
-                            getcart();
-                          }
-                        } else {
-                          navigate("/login");
-                        }
-                      }}
-                    >
-                      {cartdetails.cart?.find(
-                        (value) => value._id === _id && token
-                      ) ? (
-                        <Link to="/cart">Go To Cart</Link>
-                      ) : (
-                        "Add to Cart"
-                      )}
-                    </button>
-
-                    <button
-                      className="add-to-wishlist-btn"
-                      onClick={() => {
-                        if (token) {
-                          if (
-                            wishlistdata?.wishlist?.find(
-                              (value) => value._id === _id
-                            )
-                          ) {
-                            console.log("in");
-                            navigate("/wishList");
-                          } else {
-                            console.log("out");
-                            updateWishlist(item);
-                          }
-                        } else {
-                          navigate("/login");
-                        }
-                      }}
-                    >
-                      {wishlistdata?.wishlist?.find(
-                        (value) => value._id === _id
-                      ) ? (
-                        <Link to="/wishList">Go To Wishlist</Link>
-                      ) : (
-                        "Add to WishList"
-                      )}
-                    </button>
-
-                    {/* {cartdetails.cart?.find((value) => value._id === _id) ? (
-                    token == false ? (
+                    <div>
                       <button
-                        onClick={() => navigate("/login")}
-                        className="add-button"
+                        className="add-to-cart-btn"
+                        onClick={() => {
+                          if (token) {
+                            if (
+                              cartdetails.cart?.find(
+                                (value) => value._id === _id
+                              )
+                            ) {
+                              navigate("/cart");
+                            } else {
+                              updateCart(item);
+                              getcart();
+                            }
+                          } else {
+                            navigate("/login");
+                          }
+                        }}
                       >
-                        Add to Cart
+                        {cartdetails.cart?.find(
+                          (value) => value._id === _id && token
+                        ) ? (
+                          <Link to="/cart" className="go-to-cart">
+                            Go To Cart
+                          </Link>
+                        ) : (
+                          "Add to Cart"
+                        )}
                       </button>
-                    ) : (
-                      <button
-                        onClick={() => navigate("/cart")}
-                        className="add-button"
-                      >
-                       
-                        Go to Cart
-                  
-                      </button>
-                    )
-                  ) : (
-                    <button
-                      onClick={() => {
-                        if (authState.currentUser) {
-                          console.log("a");
-                          updateCart(item);
-                          getcart();
-                        } else {
-                          console.log("b");
-                          navigate("/login");
-                        }
-                      }}
-                      className="add-button"
-                    >
-                      Add to Cart
-                    </button>
-                  )} */}
-
-                    {/* {wishlistdata?.wishlist?.find(
-                    (value) => value._id === _id
-                  ) ? (
-                    token == false ? (
-                      <button onClick={() => navigate("/login")}>
-                        Add to WishList
-                      </button>
-                    ) : (
-                      <button onClick={() => navigate("/wishList")}>
-                        Go to WishList
-                      </button>
-                    )
-                  ) : (
-                    <button
-                      onClick={() => {
-                        if (authState.currentUser) {
-                          updateWishlist(item);
-                        } else {
-                          navigate("/login");
-                        }
-                      }}
-                      className="wishlist-button"
-                    >
-                      Add to WishList
-                    </button>
-                  )} */}
+                    </div>
                   </div>
                 </div>
               );

@@ -10,7 +10,7 @@
 }
 .product-card:hover {
   cursor: pointer;
-  box-shadow: 0px 0px 20px grey;
+  /* box-shadow: 0px 0px 20px grey; */
 }
 .products {
   grid-area: products;
@@ -39,47 +39,118 @@
   cursor: pointer;
 }
 .add-to-cart-btn {
-  margin-right: 0.2rem;
+  width: 90%;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+.fill-wishlist {
+  font-size: 1rem;
+}
+.red-color {
+  color: red;
+  font-size: 1rem;
+}
+
+.filled-wishlist:hover,
+.fill-wishlist :hover {
+  cursor: pointer;
+}
+
+.add-to-wishlist-btn {
+  position: absolute;
+  top: 10px;
+  right: 5px;
+  background: none;
+  border: none;
+  font-size: 0.25rem;
 }
 
 .add-to-cart-btn:hover,
-.add-to-wishlist-btn:hover {
+.go-to-cart:hover {
   background-color: #4e4feb;
   color: #ffffff;
-  box-shadow: 0 0 8px grey;
   cursor: pointer;
   border: none;
-  padding: 0.25rem;
 }
 .product-card {
-  border: 1px solid black;
+  width: 15rem;
+  position: relative;
+  box-shadow: rgba(90, 90, 90, 0.35) 0px 5px 15px;
   border-radius: 0.5rem;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: space-around;
-  margin: 0.5rem;
-  width: 200px;
-  height: 400px;
-  line-height: 1;
+  margin: 2rem;
 }
-.rating,
+.product-card-info {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+.product-img {
+  width: 100%;
+  height: 15rem;
+  object-fit: contain;
+}
+.product-author {
+  margin: 0;
+  text-align: left;
+  color: #a2a2a2;
+  font-size: 12px;
+  font-weight: 600;
+}
+.product-title-container {
+  line-height: 0.1;
+}
+.product-price {
+  margin-top: 0.5rem;
+  text-align: left;
+}
+.product-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.product-title-header {
+  text-align: left;
+  font-size: 16px;
+}
+
+.bi-star-fill {
+  font-size: 10px;
+}
+.product-rating {
+  background-color: #20aa20;
+  color: white;
+  height: max-content;
+  padding: 0.35rem;
+  border-radius: 10px;
+}
 .price {
   margin: 0;
 }
 .add-button {
   margin-right: 0.5rem;
 }
-
+.bi-cart {
+  font-size: 1rem;
+}
+.go-to-cart {
+  text-decoration: none;
+}
 .wishList-button {
   margin-left: 0.5rem;
 }
+.empty-books {
+  margin: 2rem;
+}
 
-datalist {
+/* datalist {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-}
+} */
 input[type="range"] {
   width: 200px;
   margin: 0;
