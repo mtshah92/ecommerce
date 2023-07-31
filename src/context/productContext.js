@@ -56,13 +56,13 @@ export const ProductProvider = ({ children }) => {
       case "checkbox":
         return {
           ...state,
-          checkbox:
-            action.payload.target.checked ||
-            action.payload.target.any === "value"
-              ? [...state.checkbox, action.payload.target.value]
-              : state.checkbox.filter(
-                  (item) => action.payload.target.value !== item
-                ),
+          checkbox: action.payload.target.checked
+            ? // ||
+              // action.payload.target.any === "value"
+              [...state.checkbox, action.payload.target.value]
+            : state.checkbox.filter(
+                (item) => action.payload.target.value !== item
+              ),
         };
 
       case "value":

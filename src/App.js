@@ -23,6 +23,8 @@ function App() {
         <Route path="/mockman" element={<Mockman />} />
         <Route path="/products" element={<ProductList />} />
         <Route path="/products/:productId" element={<ProductPage />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
         <Route
           path="/cart"
           element={
@@ -39,7 +41,7 @@ function App() {
             </RequireAuth>
           }
         />
-        <Route path="/login" element={<Login />} />
+
         <Route
           path="/profile"
           element={
@@ -65,8 +67,6 @@ function App() {
             </RequireAuth>
           }
         />
-
-        <Route path="/signup" element={<SignUp />} />
       </Routes>
       <ToastContainer />
     </div>

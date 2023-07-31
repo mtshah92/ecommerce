@@ -1,0 +1,26 @@
+.footer {
+  display: flex;
+  justify-content: space-between;
+  background-color: #1f1d1d;
+  color: #ffffff;
+  margin-top: 2rem;
+  padding: 1rem 3rem;
+  line-height: 0.75;
+}
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+.footer-container-two,
+.footer-container-three {
+  line-height: 1;
+}
+.social-links {
+  text-decoration: none;
+  padding-top: 0.75rem;
+  color: #0645ad;
+}
+.social-links:hover {
+  color: #fa5705;
+}
