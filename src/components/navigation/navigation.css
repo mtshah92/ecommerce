@@ -6,8 +6,6 @@
   width: 100%;
   box-shadow: 5px 5px 5px grey;
   min-height: 8vh;
-  /* position: fixed; */
-  /* z-index: 1000; */
 }
 .header-logo {
   width: 150px;
@@ -18,19 +16,43 @@
   justify-content: start;
   margin-left: 0.5rem;
 }
-.search-bar {
-  width: 30%;
+.search-box {
+  display: flex;
   justify-content: center;
-  margin-left: 30px;
+  align-items: center;
+  width: 100%;
+  border: 1px solid;
+  border-radius: 0.5rem;
+  background-color: #ffffff;
+  padding: 0.25rem;
 }
+
+.search-bar {
+  width: 20rem;
+  padding: 0.25rem;
+  border: none;
+  outline: none;
+}
+.search-icon {
+  margin-right: 0.25rem;
+}
+
 .bi {
   font-size: 24px;
 }
-
-.nav-links {
-  justify-content: end;
+.bi-search {
+  font-size: 14px;
 }
-
+.nav-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.active {
+  color: blue;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
 .profile-navbar,
 .cart-navbar,
 .wishList-navbar {

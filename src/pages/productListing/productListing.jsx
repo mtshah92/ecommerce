@@ -95,11 +95,6 @@ export const ProductList = () => {
                   </div>
 
                   <div className="buttons">
-                    {/* {token
-                    ? cartdetails.cart?.find((value) => value._id === _id)
-                      ? navigate("/cart")
-                      : updateCart(item)
-                    : navigate("/login")} */}
                     <div>
                       <button
                         className="add-to-cart-btn"
