@@ -5,6 +5,8 @@ import "./checkout.css";
 import { ProductContext } from "../../context/productContext";
 import { useNavigate } from "react-router";
 import { AddressModal } from "../../components/addressModal/addressModal";
+import { toast } from "react-toastify";
+import { AuthContext } from "../../context/AuthContext";
 
 export const CheckOut = () => {
   const { cartdetails } = useContext(CartContext);
@@ -14,10 +16,64 @@ export const CheckOut = () => {
     showAddressModal,
     setShowAddressModal,
   } = useContext(ProductContext);
+  const { logoutHandler, authState, user } = useContext(AuthContext);
   const [markedAddress, setMarkAddress] = useState();
   const [editAdd, setEditAdd] = useState(false);
+  const totalAmount = cartdetails.cart?.reduce(
+    (acc, curr) => Number(curr.price) * Number(curr.qty) + acc,
+    0
+  );
 
   const navigate = useNavigate();
+
+  const loadScript = async (url) => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = url;
+
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+
+      document.body.appendChild(script);
+    });
+  };
+
+  const displayRazorpay = async () => {
+    const res = await loadScript(
+      "https://checkout.razorpay.com/v1/checkout.js"
+    );
+    if (!res) {
+      toast.error("Razorpay SDK failed to load, check you connection");
+    }
+
+    const options = {
+      key: "rzp_test_QBUN3tBtpD3d3i",
+      amount: totalAmount * 100,
+      currency: "INR",
+      name: "CustoFriend",
+      description: "Thank you for shopping with us",
+      handler: function (response) {
+        const orderData = {
+          product: [...cartdetails.cart],
+          amount: totalAmount,
+          paymentId: response.razorpay_payment_id,
+          delivery: productState.selectedAddress,
+        };
+      },
+      prefill: {
+        name: `${user.firstName} ${user.lastName}`,
+        email: "example@gmail.com",
+        contact: "9876543210",
+      },
+    };
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+  };
+
   return (
     <div>
       <NavBar />
@@ -114,14 +170,7 @@ export const CheckOut = () => {
                 <div className="cart-price-item">
                   <p>Price ({`${cartdetails.cart?.length} items`})</p>
                   <div className="cart-price-part">
-                    <p>
-                      &#8377;{" "}
-                      {cartdetails.cart?.reduce(
-                        (acc, curr) =>
-                          Number(curr.price) * Number(curr.qty) + acc,
-                        0
-                      )}
-                    </p>
+                    <p>&#8377; {totalAmount}</p>
                   </div>
                 </div>
                 <div className="cart-price-item">
@@ -160,7 +209,10 @@ export const CheckOut = () => {
                 ))}
               <button
                 className="checkout-btn"
-                onClick={() => navigate("/orderSummary")}
+                onClick={() => {
+                  displayRazorpay();
+                  // navigate("/orderSummary");
+                }}
                 disabled={!markedAddress?.checked}
               >
                 Place Order
